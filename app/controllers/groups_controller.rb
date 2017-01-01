@@ -46,6 +46,21 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
+  def join
+    @group = Group.find(params[:id])
+
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice] = ""
+    else
+      flash[:warning] = ""
+    end
+  end
+
+  def quit
+
+  end
+
   private
   def group_params
     params.require(:group).permit(:title, :description)
